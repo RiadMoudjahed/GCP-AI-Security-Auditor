@@ -51,7 +51,7 @@ jobs:
         run: pip install safety
       
       - name: Check for vulnerable dependencies
-        run: safety check -r requirements.txt --continue-on-error
+        run: safety scan -r requirements.txt --continue-on-error
         # --continue-on-error: report vulnerabilities but don't fail pipeline
         # Remove this flag once you've reviewed and accepted/fixed findings
 
