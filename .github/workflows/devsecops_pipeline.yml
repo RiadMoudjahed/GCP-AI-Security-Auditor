@@ -41,19 +41,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      
+
       - name: Install Safety
-        run: pip install safety
-      
-      - name: Check for vulnerable dependencies
-        run: safety scan -r requirements.txt --continue-on-error
-        # --continue-on-error: report vulnerabilities but don't fail pipeline
-        # Remove this flag once you've reviewed and accepted/fixed findings
+        run: pip install safety==2.3.5
+
+      - name: Run Safety dependency scan
+        run: safety check -r requirements.txt --full-report --continue-on-error
 
   # ─────────────────────────────────────────
   # JOB 3: Tests (Pytest)
