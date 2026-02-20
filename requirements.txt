@@ -1,1 +1,4 @@
-
+bandit==1.9.3
+pytest
+pytest-cov
+safety
