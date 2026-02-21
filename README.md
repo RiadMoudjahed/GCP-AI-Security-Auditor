@@ -6,6 +6,8 @@ An automated security auditing tool for Google Cloud Platform environments hosti
 
 [![CI/CD Pipeline](https://github.com/RiadMoudjahed/GCP-AI-Security-Auditor/actions/workflows/devsecops_pipeline.yml/badge.svg?branch=main)](https://github.com/RiadMoudjahed/GCP-AI-Security-Auditor/actions/workflows/devsecops_pipeline.yml)
 
+![License](https://img.shields.io/badge/license-MIT-green)
+
 </div>
 
 ---
