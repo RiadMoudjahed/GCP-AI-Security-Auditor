@@ -99,7 +99,7 @@ class GCPAISecurityAuditor:
         total = count_medium + count_high + count_critical
 
         print(f"\n{'='*50}")
-        print(f"Total findings: {total} \n{count_medium} MEDIUM\n {count_high} HIGH\n {count_critical} CRITICAL\n")
+        print(f"Total findings: {total} \n{count_medium} MEDIUM\n {count_high}HIGH\n {count_critical}CRITICAL\n")
         print(f"\n{'='*50}")
 
     def run_all_checks(self):
