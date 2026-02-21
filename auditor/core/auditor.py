@@ -78,7 +78,7 @@ class GCPAISecurityAuditor:
     def generate_report(self):
         print(f"\n{'='*50}")
         print(f"GCP AI Security Audit Report - Project: {self.project_id}")
-        print(f"\n{'='*50}")
+        print(f"{'='*50}")
 
         count_high = 0
         count_critical = 0
@@ -87,7 +87,7 @@ class GCPAISecurityAuditor:
         grouped = defaultdict(list)
         for finding in self.findings:
             grouped[finding["Severity"]].append(finding)
-            print(f"{finding['Severity']}: {finding['Check']} - {finding['message']}")
+            print(f"\n{finding['Severity']}: {finding['Check']} - {finding['message']}")
 
 
             if finding["Severity"] == "MEDIUM":
@@ -99,7 +99,7 @@ class GCPAISecurityAuditor:
         total = count_medium + count_high + count_critical
 
         print(f"\n{'='*50}")
-        print(f"Total findings: {total} {count_medium} MEDIUM\n {count_high} HIGH\n {count_critical} CRITICAL\n")
+        print(f"Total findings: {total} \n{count_medium} MEDIUM\n {count_high} HIGH\n {count_critical} CRITICAL\n")
         print(f"\n{'='*50}")
 
     def run_all_checks(self):
