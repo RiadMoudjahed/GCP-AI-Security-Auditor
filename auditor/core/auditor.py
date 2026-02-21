@@ -1,5 +1,6 @@
 import google.auth
 from google.cloud import notebooks_v1
+from google.api_core import exceptions
 from google.cloud import storage
 from google.cloud import resourcemanager_v3
 from collections import defaultdict
@@ -22,23 +23,27 @@ class GCPAISecurityAuditor:
 
 
     def check_vertex_ai_security(self):
-        # Create a client
-        client = notebooks_v1.NotebookServiceClient(credentials=self.credentials)
+        try:
+            # Create a client
+            client = notebooks_v1.NotebookServiceClient(credentials=self.credentials)
+    
+            # Initialize request arguments
+            request = notebooks_v1.ListInstancesRequest(
+                parent=f"projects/{self.project_id}/locations/-",
+            )
+    
+            # Make the request
+            page_result = client.list_instances(request=request)
+    
+            # Handle the response
+            for response in page_result:
+                if response.no_public_ip is False:
+                    self.findings.append({"Severity": "CRITICAL", "Check": "ai-security", "message": f"Instance with public IP: {response.name}"})
+                if response.no_proxy_access is False:
+                    self.findings.append({"Severity": "HIGH", "Check": "ai-security", "message": f"Instance with proxy access: {response.name}"})
+        except exceptions.PermissionDenied as e:
+            self.findings.append({"Severity": "HIGH", "Check": "ai-security", "message": f"Notebooks API disabled or permission denied: {str(e)}"})
 
-        # Initialize request arguments
-        request = notebooks_v1.ListInstancesRequest(
-            parent=f"projects/{self.project_id}/locations/-",
-        )
-
-        # Make the request
-        page_result = client.list_instances(request=request)
-
-        # Handle the response
-        for response in page_result:
-            if response.no_public_ip is False:
-                self.findings.append({"Severity": "CRITICAL", "Check": "ai-security", "message": f"Instance with public IP: {response.name}"})
-            if response.no_proxy_access is False:
-                self.findings.append({"Severity": "HIGH", "Check": "ai-security", "message": f"Instance with proxy access: {response.name}"})
     
 
     def check_storage_security(self):
@@ -94,7 +99,7 @@ class GCPAISecurityAuditor:
         total = count_medium + count_high + count_critical
 
         print(f"\n{'='*50}")
-        print(f"Total findings: {total} ({count_medium} MEDIUM\n {count_high} HIGH\n {count_critical} CRITICAL)")
+        print(f"Total findings: {total} {count_medium} MEDIUM\n {count_high} HIGH\n {count_critical} CRITICAL\n")
         print(f"\n{'='*50}")
 
     def run_all_checks(self):
