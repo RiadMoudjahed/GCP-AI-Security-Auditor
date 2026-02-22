@@ -1,11 +1,11 @@
-import google.auth
-from google.cloud import notebooks_v1
-from google.api_core import exceptions
-from google.cloud import storage
-from google.cloud import resourcemanager_v3
-from collections import defaultdict
-import os
-import sys
+import google.auth    # To access Google APIs
+from google.cloud import notebooks_v1    # To get GCP vertex AI API requests
+from google.api_core import exceptions   # For handling exceptions
+from google.cloud import storage         # To access storage buckets
+from google.cloud import resourcemanager_v3    # To get the project ID
+from collections import defaultdict    # For grouping the severity findings
+import os    # To get the GCP_PROJECT_ID environment
+import sys   # For exiting the tool gracefully
 
 
 class GCPAISecurityAuditor:
@@ -23,6 +23,8 @@ class GCPAISecurityAuditor:
 
 
     def check_vertex_ai_security(self):
+        """Vertex AI Security Auditing"""
+        
         try:
             # Create a client
             client = notebooks_v1.NotebookServiceClient(credentials=self.credentials)
@@ -47,6 +49,8 @@ class GCPAISecurityAuditor:
     
 
     def check_storage_security(self):
+        """Storage Security Auditing"""
+        
         # Initialize the client
         storage_client = storage.Client(project=self.project_id, credentials=self.credentials)
 
@@ -60,6 +64,8 @@ class GCPAISecurityAuditor:
 
 
     def check_iam_security(self):
+        """IAM Security Auditing"""
+        
         # Initialize the client
         client = resourcemanager_v3.ProjectsClient(credentials=self.credentials)
 
@@ -76,6 +82,8 @@ class GCPAISecurityAuditor:
                     self.findings.append({"Severity": "CRITICAL", "Check": "iam-security", "message": f"Service account with owner/editor role: {member}"})
 
     def generate_report(self):
+        """Report Generation"""
+        
         print(f"\n{'='*50}")
         print(f"GCP AI Security Audit Report - Project: {self.project_id}")
         print(f"{'='*50}")
