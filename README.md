@@ -2,6 +2,8 @@
 
 # GCP AI Security Auditor
 
+<img width="64" height="64" alt="Image" src="https://github.com/user-attachments/assets/987d1780-8590-4ff0-baa0-3843df160821" /> <img width="64" height="64" alt="Image" src="https://github.com/user-attachments/assets/849788c3-a893-4dbf-848a-d5b0e7672484" />
+
 An automated security auditing tool for Google Cloud Platform environments hosting AI and machine learning workloads. The tool identifies misconfigurations across Vertex AI, Cloud Storage, and IAM resources that general-purpose scanners do not address.
 
 [![CI/CD Pipeline](https://github.com/RiadMoudjahed/GCP-AI-Security-Auditor/actions/workflows/devsecops_pipeline.yml/badge.svg?branch=main)](https://github.com/RiadMoudjahed/GCP-AI-Security-Auditor/actions/workflows/devsecops_pipeline.yml)
